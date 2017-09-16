@@ -1,12 +1,10 @@
 ﻿using Race.BusinessService.Contract;
 using Race.Common;
+using Race.Domain;
 using Race.Host.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Race.Domain;
 
 namespace Race.Host.Services
 {

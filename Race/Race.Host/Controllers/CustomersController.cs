@@ -1,20 +1,28 @@
 ﻿using Race.Host.Models;
+using Race.Host.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Race.Host.Controllers
 {
     [RoutePrefix("api/customers")]
-    public class CustomersController : ApiController
+    public class CustomersController : BaseApiController
     {
-        [HttpGet]
-        public CustomersData GetCustomers()
+        private readonly IRaceDayService _raceDayService;
+
+        public CustomersController(IRaceDayService raceDayService)
         {
-            return null;
+            _raceDayService = raceDayService;
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetCustomers()
+        {
+            Func<CustomersData> action = () => _raceDayService.GetCustomers();
+
+            IHttpActionResult result = Execute(action);
+
+            return result;
         }
     }
 }

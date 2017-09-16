@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Race.Host.Controllers
 {
     [RoutePrefix("api/races")]
-    public class RacesController : ApiController
+    public class RacesController : BaseApiController
     {
         private readonly IRaceDayService _raceDayService;
 
@@ -20,9 +19,13 @@ namespace Race.Host.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<RaceData> GetRaces()
+        public IHttpActionResult GetRaces()
         {
-            return null;
-        }
+            Func<IEnumerable<RaceData>> action = () => _raceDayService.GetRaces();
+
+            IHttpActionResult result = Execute(action);
+
+            return result;
+        }        
     }
 }
