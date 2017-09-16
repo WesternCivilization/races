@@ -2,8 +2,6 @@
 using Race.Host.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Web.Http;
 
 namespace Race.Host.Controllers

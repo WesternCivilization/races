@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,10 +52,17 @@
       <Project>{983f882d-f8b1-48f9-a0fb-56215bf8d011}</Project>
       <Name>Race.BusinessService.Contract</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Race.Common\Race.Common.csproj">
+      <Project>{8E01569A-38A7-4966-AAAD-CA306D554934}</Project>
+      <Name>Race.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Race.Domain\Race.Domain.csproj">
       <Project>{6f5bc471-d78a-49e3-9a74-26f48f124519}</Project>
       <Name>Race.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -94,7 +94,7 @@ namespace Race.Host.Services
 
         private CustomerData CreateCustomerData(Customer customer, IEnumerable<Bet> bets)
         {
-            IList<Domain.Bet> betsByCustomer = bets?.Where(b => b.Customer?.Id == customer.Id).ToList();
+            IList<Bet> betsByCustomer = bets?.Where(b => b.Customer?.Id == customer.Id).ToList();
 
             CustomerData customerData = new CustomerData
             {
