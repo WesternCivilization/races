@@ -32,6 +32,7 @@ namespace Race.Host
         {
             builder.RegisterType<RaceDayService>().As<IRaceDayService>();
             builder.RegisterType<ConfigManager>().As<IConfigManager>();
+            builder.RegisterType<Logger>().As<ILogger>();
             builder.RegisterType<RaceService>().As<IRaceService>();
             builder.RegisterType<RaceDataProvider>().As<IRaceDataProvider>();
         }

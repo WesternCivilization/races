@@ -3,6 +3,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using Race.ApplicationService.Models;
 using Race.ApplicationService.Services;
+using Race.Common.Service;
 
 namespace Race.Host.Controllers
 {
@@ -12,7 +13,9 @@ namespace Race.Host.Controllers
     {
         private readonly IRaceDayService _raceDayService;
 
-        public CustomersController(IRaceDayService raceDayService)
+        public CustomersController(
+            IRaceDayService raceDayService,
+            ILogger logger) : base(logger)
         {
             _raceDayService = raceDayService;
         }

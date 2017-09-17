@@ -21,10 +21,14 @@ namespace Race.BusinessService
         private const string Name = "rangana";
 
         private readonly IConfigManager _configManager;
+        private readonly ILogger _logger;
 
-        public RaceDataProvider(IConfigManager configManager)
+        public RaceDataProvider(
+            IConfigManager configManager,
+            ILogger logger)
         {
             _configManager = configManager;
+            _logger = logger;
         }
 
         public IEnumerable<Bet> GetBets()
@@ -110,7 +114,7 @@ namespace Race.BusinessService
             }
             catch (Exception ex)
             {
-                // TODO: Log the exception - Skipped for brevity
+                _logger.LogException(Severity.Error, ex.Message, ex);
                 throw;
             }
         }        

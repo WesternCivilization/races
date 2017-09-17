@@ -11,7 +11,9 @@
                     json: "application/json"
                 },
                 success: function (data, textStatus, jqXHR) {
-                    $("#raceTemplate").tmpl(data).appendTo("#race-results");
+                    var $races = $("#race-results");
+                    $races.empty();
+                    $("#raceTemplate").tmpl(data).appendTo($races);
                 },
                 error: function (xhr, status, error) {
                     alert(xhr.responseText);
