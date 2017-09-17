@@ -45,8 +45,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ConfigManager.cs" />
     <Compile Include="Service\IConfigManager.cs" />
-    <Compile Include="Service\ISerializer.cs" />
-    <Compile Include="Service\Serializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

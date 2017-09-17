@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 
@@ -20,39 +21,81 @@ namespace Race.BusinessService
         private const string Name = "rangana";
 
         private readonly IConfigManager _configManager;
-        private readonly ISerializer _serializer;
 
-        public RaceDataProvider(
-            IConfigManager configManager,
-            ISerializer serializer)
+        public RaceDataProvider(IConfigManager configManager)
         {
             _configManager = configManager;
-            _serializer = serializer;
         }
 
         public IEnumerable<Bet> GetBets()
         {
-            IEnumerable<Bet> bets =
-                ExecuteGet<IEnumerable<Bet>>($"api/GetBetsV2?name={Name}");
-            return bets;
+            XDocument doc = ExecuteGet($"api/GetBetsV2?name={Name}");
+            XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
+
+            IEnumerable<Bet> bets = doc.Root?.Elements()?
+                .Select(e => new Bet
+                {
+                    Customer = new Customer
+                    {
+                        Id = int.Parse(e.Element(ns + "customerId").Value)
+                    },
+                    Horse = new Horse
+                    {
+                        Id = int.Parse(e.Element(ns + "horseId").Value)
+                    },
+                    Race = new Domain.Race
+                    {
+                        Id = int.Parse(e.Element(ns + "raceId").Value)
+                    },
+                    Stake = decimal.Parse(e.Element(ns + "stake").Value)
+                })
+                .ToList();
+
+            return bets ?? new List<Bet>();
         }
 
         public IEnumerable<Customer> GetCustomers()
         {
-            IEnumerable<Customer> customers = 
-                ExecuteGet<Customer[]>($"api/GetCustomers?name={Name}");
+            XDocument doc = ExecuteGet($"api/GetCustomers?name={Name}");
+            XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
 
-            return customers;
+            IEnumerable<Customer> customers = doc.Root?.Elements()?
+                .Select(e => new Customer
+                {
+                    Id = int.Parse(e.Element(ns + "id").Value),
+                    Name = e.Element(ns + "name").Value
+                })
+                .ToList();
+
+            return customers ?? new List<Customer>();
         }
 
         public IEnumerable<Domain.Race> GetRaces()
         {
-            IEnumerable<Domain.Race> races =
-                ExecuteGet<IEnumerable<Domain.Race>>($"api/GetRaces?name={Name}");
-            return races;
+            XDocument doc = ExecuteGet($"api/GetRaces?name={Name}");
+            XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
+
+            IEnumerable<Domain.Race> races = doc.Root?.Elements()?
+                .Select(e => new Domain.Race
+                {
+                    Id = int.Parse(e.Element(ns + "id").Value),
+                    Name = e.Element(ns + "name").Value,
+                    Start = DateTime.Parse(e.Element(ns + "start").Value),
+                    Status = (RaceStatus)Enum.Parse(typeof(RaceStatus), e.Element(ns + "status").Value, true),
+                    Horses = e.Element(ns + "horses")?.Elements()?.Select(h => 
+                                    new Horse
+                                    {
+                                        Id = int.Parse(h.Element(ns + "id").Value),
+                                        Name = h.Element(ns + "name").Value,
+                                        Odds = decimal.Parse(h.Element(ns + "odds").Value)
+                                    }).ToList()
+                })
+                .ToList();
+
+            return races ?? new List<Domain.Race>();
         }
 
-        private R ExecuteGet<R>(string url)
+        private XDocument ExecuteGet(string url)
         {
             try
             {
@@ -63,13 +106,14 @@ namespace Race.BusinessService
 
                 IRestResponse response = client.Execute(request);
 
-                return _serializer.Deserialize<R>(response.Content);
+                return XDocument.Parse(response.Content);
             }
             catch (Exception ex)
             {
                 // TODO: Log the exception - Skipped for brevity
                 throw;
             }
-        }
+        }        
     }
 }
+

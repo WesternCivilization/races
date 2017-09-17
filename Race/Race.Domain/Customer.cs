@@ -1,6 +1,9 @@
-﻿namespace Race.Domain
+﻿
+
+namespace Race.Domain
 {
     public class Customer : BaseEntity
     {        
     }
+
 }
