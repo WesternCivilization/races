@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Reflection;
 
-namespace Race.Common
+namespace Race.Common.Extensions
 {
     public static class EnumExtensions
     {

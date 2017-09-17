@@ -4,6 +4,7 @@ using System.Linq;
 using Race.ApplicationService.Models;
 using Race.BusinessService.Contract;
 using Race.Common;
+using Race.Common.Extensions;
 using Race.Domain;
 
 namespace Race.ApplicationService.Services
