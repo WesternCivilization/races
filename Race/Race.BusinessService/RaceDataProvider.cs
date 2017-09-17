@@ -32,7 +32,7 @@ namespace Race.BusinessService
             XDocument doc = ExecuteGet($"api/GetBetsV2?name={Name}");
             XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
 
-            IEnumerable<Bet> bets = doc.Root?.Elements()?
+            IEnumerable<Bet> bets = doc.Root?.Elements()
                 .Select(e => new Bet
                 {
                     Customer = new Customer
@@ -51,7 +51,7 @@ namespace Race.BusinessService
                 })
                 .ToList();
 
-            return bets ?? new List<Bet>();
+            return bets;
         }
 
         public IEnumerable<Customer> GetCustomers()
@@ -59,7 +59,7 @@ namespace Race.BusinessService
             XDocument doc = ExecuteGet($"api/GetCustomers?name={Name}");
             XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
 
-            IEnumerable<Customer> customers = doc.Root?.Elements()?
+            IEnumerable<Customer> customers = doc.Root?.Elements()
                 .Select(e => new Customer
                 {
                     Id = int.Parse(e.Element(ns + "id").Value),
@@ -67,7 +67,7 @@ namespace Race.BusinessService
                 })
                 .ToList();
 
-            return customers ?? new List<Customer>();
+            return customers;
         }
 
         public IEnumerable<Domain.Race> GetRaces()
@@ -75,7 +75,7 @@ namespace Race.BusinessService
             XDocument doc = ExecuteGet($"api/GetRaces?name={Name}");
             XNamespace ns = doc.Root.GetDefaultNamespace().NamespaceName;
 
-            IEnumerable<Domain.Race> races = doc.Root?.Elements()?
+            IEnumerable<Domain.Race> races = doc.Root?.Elements()
                 .Select(e => new Domain.Race
                 {
                     Id = int.Parse(e.Element(ns + "id").Value),
@@ -92,7 +92,7 @@ namespace Race.BusinessService
                 })
                 .ToList();
 
-            return races ?? new List<Domain.Race>();
+            return races;
         }
 
         private XDocument ExecuteGet(string url)

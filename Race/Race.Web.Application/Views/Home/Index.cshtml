@@ -7,13 +7,40 @@
 </div>
 
 <div class="form-inline">
-    <div class="btn btn-primary">Load Race Information</div>
+    <div class="btn btn-primary" id="loadRaces">Load Race Information</div>
 </div>
-<div class="clearfix"></div>
-<div class="panel panel-default">
+
+<div class="panel panel-default" style="margin-top: 20px;"> @*Avoid In line styling - Just for brevity*@
     <div class="panel-heading">Results</div>
     <div class="panel-body" id="race-results">
         
     </div>
 </div>
 
+@section scripts {
+    
+    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+    <script id="raceTemplate" type="text/html"> 
+        <div> 
+            <h3><span class="label label-primary">Race</span></h3>
+            <p>Status: ${ Status }</p>
+            <p>Total Money On Race: $${ TotalMoneyOnRace }</p>
+            <div style="margin-left: 50px;">
+                {{each Horses}}
+                    <h4><span class="label label-default">Horse</span></h4>
+                    <p>Name: ${ Name }</p>
+                    <p>Number Of Bets: ${ NumberOfBetsOnMe }</p>
+                    <p>Payout If Win: $${ PayoutIfIWin }</p>
+                {{/each}}
+            </div>
+        </div> 
+    </script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            race_display.init();
+        });
+
+    </script>
+}

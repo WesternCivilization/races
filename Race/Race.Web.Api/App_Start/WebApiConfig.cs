@@ -6,7 +6,8 @@ namespace Race.Host
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            // Enable cross site requests
+            config.EnableCors();
 
             // Web API routes
             config.MapHttpAttributeRoutes();
