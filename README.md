@@ -32,3 +32,5 @@ Both of them are hosted on IIS EXPRESS.
 1. Tried to use multiple layers to separate concerns
 2. For XML processing Linq to XML is used, although XmlSerializer could even be used. I like to avoid XML attributues polluting domain models.
 3. Minimum level of web page is completed and proper styling of the web page is avoided.
+4. All possible test cases are not covered.
+5. Did object state testing with stubs, rather than behaivour testing

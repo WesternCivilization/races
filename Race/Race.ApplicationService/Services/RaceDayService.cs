@@ -20,14 +20,14 @@ namespace Race.ApplicationService.Services
 
         public CustomersData GetCustomers()
         {
-            IEnumerable<Domain.Customer> customers = _raceService.GetCustomers();
-            IEnumerable<Domain.Bet> bets = _raceService.GetBets();
+            IEnumerable<Customer> customers = _raceService.GetCustomers();
+            IEnumerable<Bet> bets = _raceService.GetBets();
 
             if (customers == null) return new CustomersData();
 
             IList<CustomerData> customersData = new List<CustomerData>();
 
-            foreach (Domain.Customer customer in customers)
+            foreach (Customer customer in customers)
             {
                 CustomerData customerData = CreateCustomerData(customer, bets);
                 customersData.Add(customerData);
@@ -45,7 +45,7 @@ namespace Race.ApplicationService.Services
         public IEnumerable<RaceData> GetRaces()
         {
             IEnumerable<Domain.Race> races = _raceService.GetRaces();
-            IEnumerable<Domain.Bet> bets = _raceService.GetBets();
+            IEnumerable<Bet> bets = _raceService.GetBets();
 
             IList<RaceData> racesData = new List<RaceData>();
 
@@ -64,10 +64,11 @@ namespace Race.ApplicationService.Services
         {
             RaceData raceData = new RaceData
             {
+                Id = race.Id,
                 Status = race.Status.GetDescription()
             };
 
-            IEnumerable<Domain.Bet> betsOnRace = bets?.Where(b => b.Race?.Id == race.Id);
+            IEnumerable<Bet> betsOnRace = bets?.Where(b => b.Race?.Id == race.Id);
 
             raceData.TotalMoneyOnRace = betsOnRace.Sum(b => b.Stake);
 
@@ -75,14 +76,15 @@ namespace Race.ApplicationService.Services
             {
                 IList<HorseData> horsesData = new List<HorseData>();
 
-                foreach (Domain.Horse horse in race.Horses)
+                foreach (Horse horse in race.Horses)
                 {
                     HorseData horseData = new HorseData
                     {
+                        Id = horse.Id,
                         Name = horse.Name,
-                        NumberOfBetsOnMe = bets?.Where(b => b.Horse?.Id == horse.Id).Count() ?? 0
+                        NumberOfBets = bets?.Where(b => b.Horse?.Id == horse.Id).Count() ?? 0
                     };
-                    horseData.PayoutIfIWin = horseData.NumberOfBetsOnMe * horse.Odds;
+                    horseData.PayoutIfWon = horseData.NumberOfBets * horse.Odds;
 
                     horsesData.Add(horseData);
                 }
@@ -99,8 +101,9 @@ namespace Race.ApplicationService.Services
 
             CustomerData customerData = new CustomerData
             {
-                NumberOfBets = betsByCustomer.Count(),
-                TotalAmountOnBets = betsByCustomer.Sum(b => b.Stake)
+                Id = customer.Id,
+                NumberOfBets = betsByCustomer?.Count ?? 0,
+                TotalAmountOnBets = betsByCustomer?.Sum(b => b.Stake) ?? 0
             };
 
             customerData.IsAtRisk = 

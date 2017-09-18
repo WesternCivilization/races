@@ -2,10 +2,12 @@
 {
     public class HorseData
     {
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public int NumberOfBetsOnMe { get; set; } 
+        public int NumberOfBets { get; set; } 
 
-        public decimal PayoutIfIWin { get; set; }
+        public decimal PayoutIfWon { get; set; }
     }
 }

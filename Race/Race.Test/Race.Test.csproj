@@ -48,11 +48,26 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mock\MockRaceService.cs" />
     <Compile Include="RaceApplicationServiceTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Race.ApplicationService\Race.ApplicationService.csproj">
+      <Project>{C927C796-199F-44B6-A0B8-9582EACCF581}</Project>
+      <Name>Race.ApplicationService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Race.BusinessService.Contract\Race.BusinessService.Contract.csproj">
+      <Project>{983F882D-F8B1-48F9-A0FB-56215BF8D011}</Project>
+      <Name>Race.BusinessService.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Race.Domain\Race.Domain.csproj">
+      <Project>{6F5BC471-D78A-49E3-9A74-26F48F124519}</Project>
+      <Name>Race.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
